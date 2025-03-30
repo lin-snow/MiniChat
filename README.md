@@ -1,34 +1,34 @@
 # 项目开发指南
 
-如何启动项目？
-环境准备： 
-[Git下载](https://github.com/git-for-windows/git/releases/download/v2.49.0.windows.1/Git-2.49.0-64-bit.exe) 
-[Golang下载](https://go.dev/dl/go1.24.1.windows-amd64.msi)
+如何启动项目？  
+环境准备：  
+[Git下载](https://github.com/git-for-windows/git/releases/download/v2.49.0.windows.1/Git-2.49.0-64-bit.exe)  
+[Golang下载](https://go.dev/dl/go1.24.1.windows-amd64.msi)  
 
-推荐的编辑器：[VSCode](https://code.visualstudio.com/)
-自己安装相关的插件，不知道怎么配置可以直接找我拿配置文件
+推荐的编辑器：[VSCode](https://code.visualstudio.com/)  
+自己安装相关的插件，不知道怎么配置可以直接找我拿配置文件  
 
-1. 打开终端然后克隆本项目到本地
+1. 打开终端然后克隆本项目到本地  
 ```shell
-git clone https://github.com/lin-snow/MiniChat-Mod.git
+git clone https://github.com/lin-snow/MiniChat.git
 ```
 
-1. 进行项目根目录
+1. 进行项目根目录  
 ```shell
-cd MiniChat-Mod
+cd MiniChat
 ```
 
-1. 安装依赖
+1. 安装依赖  
 ```shell
 go mod tidy
 ```
 
-1. 启动项目
+1. 启动项目  
 ```shell
 go run main.go
 ```
 
-1. 打开浏览器访问
+1. 打开浏览器访问  
 `http://localhost:8080/`
 
 
