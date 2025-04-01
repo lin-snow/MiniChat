@@ -253,7 +253,7 @@ func HandleFiles(w http.ResponseWriter, _ *http.Request, dirTemplate fs.FS) {
 	tmplName := os.Getenv("TEMPLATE_NAME")
 
 	if tmplName == "" {
-    tmplName = "bulma"
+    tmplName = "ddiu"
 	}
 
 	tmpl, err := template.ParseFS(dirTemplate, fmt.Sprintf("templates/%s.html", tmplName))
