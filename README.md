@@ -13,22 +13,22 @@
 git clone https://github.com/lin-snow/MiniChat.git
 ```
 
-1. 进行项目根目录  
+2. 进行项目根目录  
 ```shell
 cd MiniChat
 ```
 
-1. 安装依赖  
+3. 安装依赖  
 ```shell
 go mod tidy
 ```
 
-1. 启动项目  
+4. 启动项目  
 ```shell
 go run main.go
 ```
 
-1. 打开浏览器访问  
+5. 打开浏览器访问  
 `http://localhost:8080/`
 
 
