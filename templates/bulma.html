@@ -243,9 +243,11 @@
                             sended: !(msg.cmd === 'join' || msg.cmd === 'exit') && msg.username === username,
                             system: msg.cmd === 'join' || msg.cmd === 'exit'
                         }">
-                            <div class="msg-item last">
-                                <p v-html="msg.payload"></p>
-                            </div>
+                        <div class="msg-item last" 
+                        :style="{ backgroundColor: colors[items.indexOf(msg) % colors.length] }">
+                            <p v-html="msg.payload"></p>
+                        </div>
+
                         </div>
                     </div>
                 </div>
@@ -507,6 +509,7 @@
                     items: [],
                     roomTips:"",
                     username:"",
+                    colors: ['#FF6B6B','#4ECDC4', '#45B7D1','#96CEB4','#FFEEAD']
                 }
             },
             computed: {
@@ -519,6 +522,7 @@
                         alert("The connection is closed, please refresh the page to reconnect！");
                         return;
                     }
+
 
                     ws.send(message);
                     document.getElementById('message').value ="";

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+﻿﻿<!DOCTYPE html>
 <html>
 
 <head>
@@ -134,7 +134,9 @@
         </div>
         <div class="py-2 -mx-4 px-4 transition-colors md:hover:bg-slate/3" v-for="msg in items">
             <div class="flex gap-3 rounded-lg op-75">
-                <div class="shrink-0 w-7 h-7 rounded-full op-80 bg-gradient-to-r from-purple-400 to-yellow-400 mt-1 "></div>
+                <div class="shrink-0 w-7 h-7 rounded-full mt-1" 
+                :style="{ background: colors[items.indexOf(msg) % colors.length] }"></div>
+
                 <div class="message prose break-words overflow-hidden">
                     <div class="text-red op-90 text-base">
                         <template v-if="msg.cmd === 'join' || msg.cmd === 'exit'">
@@ -387,6 +389,7 @@
                 items: [],
                 roomTips:"",
                 username:"",
+                colors: ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEEAD']
             }
         },
         computed: {
