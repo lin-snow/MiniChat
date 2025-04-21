@@ -431,7 +431,7 @@
                             serverApi =  serverApi.slice(0, -1);
                         }
                         ws = new WebSocket(serverApi + path +param);
-                        // ws = new WebSocket('ws://localhost:8080/ws/' + channel + '/' + username+ '/' + pwd + '/' + cmd);
+                        // ws = new WebSocket('ws://localhost:8080/ws/' + channel + '/' + username+ '/' + pwd + '/' + cmd);000
 
                         that.roomTips = "Room Address<br>  "+window.location.href;
 
@@ -522,6 +522,7 @@
                         alert("The connection is closed, please refresh the page to reconnect！");
                         return;
                     }
+
 
                     ws.send(message);
                     document.getElementById('message').value ="";
