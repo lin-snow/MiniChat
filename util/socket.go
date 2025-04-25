@@ -1,8 +1,9 @@
 package util
 
 import (
-	"github.com/gorilla/websocket"
 	"log"
+
+	"github.com/gorilla/websocket"
 )
 
 func SocketSend(conn *websocket.Conn, byteData []byte) error {

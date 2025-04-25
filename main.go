@@ -7,6 +7,7 @@ import (
 	"minichat/config"
 	"minichat/conversation"
 	"minichat/server"
+	"minichat/util"
 	"net/http"
 )
 
@@ -29,6 +30,8 @@ func main() {
 	go conversation.Manager.Start()
 
 	configVal := config.ParseConfig("config.yaml")
+
+	util.InitDB()
 
 	log.Printf("\n\n********************************\nChat server is running at %d !\n********************************\n\n", configVal.Port)
 	err := http.ListenAndServe(fmt.Sprintf(":%d", configVal.Port), nil)

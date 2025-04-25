@@ -9,8 +9,13 @@ import (
 )
 
 type Config struct {
-	Port      int    `yaml:"port"`
-	ServerUrl string `yaml:"server_url"`
+	Port       int    `yaml:"port"`
+	ServerUrl  string `yaml:"server_url"`
+	DBUser     string `yaml:"db_user"`
+	DBPassword string `yaml:"db_password"`
+	DBHost     string `yaml:"db_host"`
+	DBPort     int    `yaml:"db_port"`
+	DBName     string `yaml:"db_name"`
 }
 
 var GlobalConfig *Config

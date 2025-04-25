@@ -1,2 +1,8 @@
 port: 8080
-server_url: "0.0.0.0:8080" # 此处为html页面去请求服务器的地址，例子：8.8.8.8:8080 或 abc.com 或 abc.com:8080，若在本地运行，则修改为localhost
+server_url: "localhost:8080" # 此处为html页面去请求服务器的地址，例子：8.8.8.8:8080 或 abc.com 或 abc.com:8080，若在本地运行，则修改为localhost
+db_user: "root"
+db_password: "123456"
+db_host: "localhost"
+db_port: 3306
+db_name: "minichat"
+
