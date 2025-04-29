@@ -132,7 +132,7 @@
     <div data-hk="s00-0" my-6="" id="messages" class="container">
         <div data-hk="s00-1-0" class="my-4">
         </div>
-        <div class="py-2 -mx-4 px-4 transition-colors md:hover:bg-slate/3" v-for="msg in items">
+        <div class="py-2 -mx-4 px-4 transition-colors md:hover:bg-slate/3" v-for="msg in items" :key="msg.id">
             <div class="flex gap-3 rounded-lg op-75">
                 <div class="shrink-0 w-7 h-7 rounded-full mt-1" 
                 :style="{ background: colors[items.indexOf(msg) % colors.length] }"></div>
@@ -145,12 +145,11 @@
                         <template v-else>
                             <strong>{[ msg.username === username  ? '( ME ) ':'' ]} {[ msg.username ]}</strong>
                         </template>
-
                     </div>
                     <div class="text-red op-90 text-xs">
                         {[ formatDate(new Date()) ]}
                     </div>
-                    <div>
+                    <div style="display:flex;align-items:center;">
                         <template v-if="msg.cmd === 'join'">
                             <p class="text-red op-90 text-sm" style="margin:0.5rem 0">{[ msg.payload ]}</p>
                         </template>
@@ -158,10 +157,11 @@
                             <p class="text-red op-90 text-sm" style="margin:0.5rem 0">{[ msg.payload ]}</p>
                         </template>
                         <template v-else>
-                            <p style="margin:0" v-html="msg.payload"></p>
+                            <p style="margin:0;flex:1;" v-html="msg.payload"></p>
+                            <button v-if="msg.username === username && msg.cmd === 'chat' && !msg.recalled" style="margin-left:8px;font-size:12px;" @click="recallMsg(msg)">撤回</button>
+                            <span v-if="msg.recalled" style="color:#888;margin-left:8px;">[已撤回]</span>
                         </template>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -317,8 +317,16 @@
                         }
                         first = false;
 
-                        if (messageData.cmd === "join-pwd-fail"){
-                            document.getElementById('popup').classList.remove('hidden');
+                        // 撤回消息处理
+                        if (messageData.cmd === 'recall') {
+                            // messageData.payload为被撤回消息id
+                            for (let i = 0; i < that.items.length; i++) {
+                                if (that.items[i].id === messageData.payload) {
+                                    that.items[i].payload = '此消息已撤回';
+                                    that.items[i].recalled = true;
+                                }
+                            }
+                            return;
                         }
 
                         that.items.push(messageData);
@@ -355,8 +363,7 @@
                                     return;
                             }
                             ws.send(message);
-                            document.getElementById('message').value ="";
-                        }
+                            document.getElementById('message').value ="";                        }
                     });
 
 
@@ -369,8 +376,7 @@
         // document.getElementById('send').onclick = function() {
         //     var message = document.getElementById('message').value;
         //     ws.send(message);
-        //     document.getElementById('message').value ="";
-        // };
+        //     document.getElementById('message').value ="";        };
 
         document.getElementById('popup').classList.remove('hidden');
     }
@@ -397,19 +403,24 @@
         },
         methods: {
             send (){
+
                 var message = document.getElementById('message').value;
                 if (ws === null || ws === undefined || ws === "" ) {
                     alert("The connection is closed, please refresh the page to reconnect！");
                     return;
                 }
                 ws.send(message);
-                document.getElementById('message').value ="";
-            },
+                document.getElementById('message').value ="";            },
             clearScreen(){
                 this.items = [];
             },
             formatDate(value) {
                 return format(value, "yyyy-MM-dd HH:mm:ss");
+            },
+            recallMsg(msg){
+                if (ws && msg.id) {
+                    ws.send('/recall ' + msg.id);
+                }
             }
         },
         mounted: function() {
