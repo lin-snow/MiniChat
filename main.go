@@ -31,7 +31,7 @@ func main() {
 
 	configVal := config.ParseConfig("config.yaml")
 
-	util.InitDB()
+	util.InitDB() // 恢复数据库初始化
 
 	log.Printf("\n\n********************************\nChat server is running at %d !\n********************************\n\n", configVal.Port)
 	err := http.ListenAndServe(fmt.Sprintf(":%d", configVal.Port), nil)

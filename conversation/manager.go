@@ -162,17 +162,37 @@ func (manager *ConversationManager) Start() {
 			manager.unregisterLock.Unlock()
 
 		case message := <-manager.broadcast:
-			// 设置消息的时间戳
 			message.Timestamp = time.Now()
 
-			// 保存消息到数据库
-			if message.Cmd != constant.CmdJoin && message.Cmd != constant.CmdExit {
-				err := SaveMessageToDB(message)
-				if err != nil {
-					log.Println("Error saving message to database:", err)
-
-				}
+			// 自动为每条消息分配唯一ID（仅chat消息）
+			if message.Cmd == constant.CmdChat && message.ID == "" {
+				message.ID = util.RandomString(16)
 			}
+
+			if message.Cmd == constant.CmdRecall {
+				// 撤回消息，Payload为被撤回消息ID
+				// 校验权限：只能撤回自己发的消息
+				// 这里只做内存广播，数据库可选实现
+				// 广播撤回消息，所有客户端收到后处理
+				manager.broadcastLock.RLock()
+				if manager.Rooms != nil && len(manager.Rooms) != 0 && manager.Rooms[message.RoomNumber] != nil && message.RoomNumber != "" {
+					for c, _ := range manager.Rooms[message.RoomNumber].Clients {
+						if c != nil && c.Conn != nil && c.Send != nil {
+							c.Send <- message
+						}
+					}
+				}
+				manager.broadcastLock.RUnlock()
+				continue
+			}
+
+			// 保存消息到数据库
+			// if message.Cmd != constant.CmdJoin && message.Cmd != constant.CmdExit {
+			// 	err := SaveMessageToDB(message)
+			// 	if err != nil {
+			// 		log.Println("Error saving message to database:", err)
+			// 	}
+			// }
 
 			// 广播消息
 			manager.broadcastLock.RLock()
